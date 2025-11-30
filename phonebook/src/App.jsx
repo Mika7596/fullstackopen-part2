@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Filter from "./components/Filter";
+import AddingForm from "./components/AddingForm";
+import PeopleList from "./components/PeopleList";
 
 function App() {
   const [persons, setPersons] = useState([
@@ -27,34 +30,11 @@ function App() {
   return (
     <>
       <h2>Phonebook</h2>
-      <div>
-        Filter shown with <input value={filterValue} onChange={(e) => setFilterValue(e.target.value)}></input>
-      </div>
+      <Filter filterValue={filterValue} setFilterValue={setFilterValue}/>
       <h1>Add a new one</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name:{" "}
-          <input value={newName} onChange={(e) => setNewName(e.target.value)} />
-        </div>
-        <div>
-          number:{" "}
-          <input
-            type="number"
-            value={newNumber}
-            onChange={(e) => setNewNumber(e.target.value)}
-          ></input>{" "}
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <AddingForm handleSubmit={handleSubmit} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber}></AddingForm>
       <h2>Numbers</h2>
-      <ul>
-        {persons.filter(person => person.name.toLowerCase().startsWith(filterValue.toLowerCase()))
-        .map((person, index) => (
-          <li key={index}>{person.name}</li>
-        ))}
-      </ul>
+      <PeopleList persons={persons} filterValue={filterValue}/>
     </>
   );
 }
