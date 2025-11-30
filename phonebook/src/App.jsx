@@ -5,6 +5,10 @@ function App() {
   const [newName, setNewName] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
+    const names= persons.map(person =>person.name);
+    if (names.includes(newName)){
+     return alert (`${newName} is already added to phonebook`)
+    }
     const newObject = {name: newName}
     // setPersons(persons.concat(newObject));
     setPersons([...persons, newObject])
