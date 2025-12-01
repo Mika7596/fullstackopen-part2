@@ -5,7 +5,7 @@ function PeopleList({persons, filterValue}) {
     <ul>
         {persons.filter(person => person.name.toLowerCase().startsWith(filterValue.toLowerCase()))
         .map((person, index) => (
-          <li key={index}>{person.name}</li>
+          <li key={index}>{person.name} : {person.number}</li>
         ))}
       </ul>
   )
