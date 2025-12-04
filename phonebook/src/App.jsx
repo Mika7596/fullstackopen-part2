@@ -3,7 +3,6 @@ import Filter from "./components/Filter";
 import AddingForm from "./components/AddingForm";
 import PeopleList from "./components/PeopleList";
 import peopleService from './services/persons';
-import axios from 'axios'
 
 function App() {
   const [persons, setPersons] = useState([
@@ -17,21 +16,32 @@ function App() {
     const getAllFunc = peopleService.getAllPeople();
     getAllFunc.then(resp => setPersons(resp.data));
   }, [persons])
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const names = persons.map((person) => person.name);
+    const repeatedName = persons.find(person => person.name === newName)
+    const repeatedUser = persons.find(person => (person.name === newName && person.number === newNumber))
 
     if (!newName || !newNumber) {
       return alert("Please fill out both name and number fields");
     }
-    if (names.includes(newName)) {
+    if (repeatedUser) {
       return alert(`${newName} is already added to phonebook`);
     }
+    const newObject = { name: newName, number: newNumber };
+    if (names.includes(newName)) {
+      const message = `${newName} is already added to phonebook. Replace the old number with the new one?`
+      if(confirm(message)) {
+        const updatedUser = {...repeatedName, number: newNumber}
+        return peopleService.updatePerson(updatedUser.id, updatedUser);
+      }
+    }
 
-    const newObject = { name: newName, number: newNumber, id: toString(persons.length+1) };
+    
     // setPersons(persons.concat(newObject));
     setPersons([...persons, newObject]);
-    peopleService.createPerson(newObject)
+    peopleService.createPerson(newObject);
   };
 
   const deletePerson = id => {
