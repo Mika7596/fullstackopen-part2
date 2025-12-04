@@ -6,8 +6,12 @@ const getAllPeople = () => {
     return axios.get(baseURL)
 }
 
-const createPerson = personObj =>{
+const createPerson = personObj => {
    return axios.post(baseURL, personObj)
 }
 
-export default {getAllPeople, createPerson}
+const deletePerson = personId => {
+    return axios.delete(`${baseURL}/${personId}`)
+}
+
+export default {getAllPeople, createPerson, deletePerson}

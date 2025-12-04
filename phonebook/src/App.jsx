@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import AddingForm from "./components/AddingForm";
 import PeopleList from "./components/PeopleList";
-import peopleService from './services/persons'
+import peopleService from './services/persons';
+import axios from 'axios'
 
 function App() {
   const [persons, setPersons] = useState([
@@ -14,8 +15,8 @@ function App() {
 
   useEffect(() =>{
     const getAllFunc = peopleService.getAllPeople();
-    getAllFunc.then(resp => setPersons(resp.data))
-  }, [])
+    getAllFunc.then(resp => setPersons(resp.data));
+  }, [persons])
   const handleSubmit = (event) => {
     event.preventDefault();
     const names = persons.map((person) => person.name);
@@ -27,11 +28,15 @@ function App() {
       return alert(`${newName} is already added to phonebook`);
     }
 
-    const newObject = { name: newName, number: newNumber, id: persons.length+1 };
+    const newObject = { name: newName, number: newNumber, id: toString(persons.length+1) };
     // setPersons(persons.concat(newObject));
     setPersons([...persons, newObject]);
     peopleService.createPerson(newObject)
   };
+
+  const deletePerson = id => {
+    peopleService.deletePerson(id);
+  }
 
   return (
     <>
@@ -40,7 +45,7 @@ function App() {
       <h1>Add a new one</h1>
       <AddingForm handleSubmit={handleSubmit} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber}></AddingForm>
       <h2>Numbers</h2>
-      <PeopleList persons={persons} filterValue={filterValue}/>
+      <PeopleList persons={persons} filterValue={filterValue} deletePerson={deletePerson}/>
     </>
   );
 }
