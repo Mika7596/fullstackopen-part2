@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import AddingForm from "./components/AddingForm";
 import PeopleList from "./components/PeopleList";
-import axios from 'axios'
+import peopleService from './services/persons'
 
 function App() {
   const [persons, setPersons] = useState([
@@ -13,8 +13,8 @@ function App() {
   const [filterValue, setFilterValue] = useState("");
 
   useEffect(() =>{
-    const data = axios.get("http://localhost:3001/persons");
-    data.then((response) => setPersons(response.data))
+    const getAllFunc = peopleService.getAllPeople();
+    getAllFunc.then(resp => setPersons(resp.data))
   }, [])
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,9 +30,7 @@ function App() {
     const newObject = { name: newName, number: newNumber, id: persons.length+1 };
     // setPersons(persons.concat(newObject));
     setPersons([...persons, newObject]);
-    axios.post("http://localhost:3001/persons", newObject).then(resp => {
-      console.log(resp)
-    })
+    peopleService.createPerson(newObject)
   };
 
   return (
