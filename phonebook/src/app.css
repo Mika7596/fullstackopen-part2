@@ -1,0 +1,8 @@
+.success-msg{
+    border: 3px solid olivedrab;
+    background-color: rgb(171, 224, 171);
+    color: rgb(2, 80, 2);
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px;
+}
