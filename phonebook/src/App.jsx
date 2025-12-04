@@ -20,7 +20,7 @@ function App() {
   useEffect(() =>{
     const getAllFunc = peopleService.getAllPeople();
     getAllFunc.then(resp => setPersons(resp.data));
-  }, [])
+  }, [persons])
 
   const handleSubmit = (event) => {
     event.preventDefault();
