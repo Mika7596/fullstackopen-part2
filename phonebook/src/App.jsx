@@ -27,9 +27,12 @@ function App() {
       return alert(`${newName} is already added to phonebook`);
     }
 
-    const newObject = { name: newName, number: newNumber };
+    const newObject = { name: newName, number: newNumber, id: persons.length+1 };
     // setPersons(persons.concat(newObject));
     setPersons([...persons, newObject]);
+    axios.post("http://localhost:3001/persons", newObject).then(resp => {
+      console.log(resp)
+    })
   };
 
   return (
