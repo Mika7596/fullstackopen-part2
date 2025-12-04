@@ -35,7 +35,10 @@ function App() {
   };
 
   const deletePerson = id => {
-    peopleService.deletePerson(id);
+    const userToDelete = persons.find(person => person.id == id)
+    if (confirm(`Are you sure you want to delete ${userToDelete.name}`)){
+      peopleService.deletePerson(id);
+    }
   }
 
   return (
