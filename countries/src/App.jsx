@@ -1,22 +1,39 @@
 import { useEffect, useState } from 'react'
 import countriesService from './services/countries'
+import weatherService from './services/weather'
 import './App.css'
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
   const [allCountries, setAllCountries] = useState([]);
+  const [weather, setWeather] = useState({temperature:"", wind:""});
+  const [oneCountryToShow, setOneCountryToShow] = useState(false);
 
   useEffect(()=>{
     countriesService.getAll().then(resp => setAllCountries(resp.data));
-  }, [searchValue])
+
+  }, [])
+
+
 
   const handleShow = event =>{
     console.log(event.target.value);
     countriesService.getOneCountry(event.target.value).then(resp => setAllCountries([resp.data]))
   }
 
+async function getWeather(city) {
+    const resp = await weatherService(city);
+    const temperature = resp.data.main.temp;
+    const wind = resp.data.wind.speed;
+    console.log("Temperatura:", temperature);
+    console.log("Viento:", wind);
+    setWeather({temperature, wind});
+  
+}
+
   const oneCountryData = (country) => {
-    return (<><h2>{country.name.common}</h2><p>Capital: {country.capital}</p><p>Area:{country.area}</p><h4>Languages</h4>{Object.values(country.languages).map(lang => (<li>{lang}</li>))}<div><img src={country.flags.png}/></div></>)
+    getWeather(country.capital)
+    return (<><h2>{country.name.common}</h2><p>Capital: {country.capital}</p><p>Area:{country.area}</p><h4>Languages</h4>{Object.values(country.languages).map(lang => (<li>{lang}</li>))}<div><img src={country.flags.png}/></div><div><p>Temperature: {weather.temperature}</p> <p>Wind: {weather.wind}</p></div></>)
   }
 
   return (
