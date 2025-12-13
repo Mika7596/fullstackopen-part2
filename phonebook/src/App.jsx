@@ -49,14 +49,14 @@ function App() {
           return setTimeout(()=>{setShowErrorMessage([false, null])}, 4000)
         });
       }
-    }
+    } else{
 
-    
-    // setPersons(persons.concat(newObject));
-    setPersons([...persons, newObject]);
-    peopleService.createPerson(newObject);
-    setShowAddingSuccessMessage(true);
-    setTimeout(()=>{setShowAddingSuccessMessage(false)}, 4000)
+      // setPersons(persons.concat(newObject));
+      setPersons([...persons, newObject]);
+      peopleService.createPerson(newObject);
+      setShowAddingSuccessMessage(true);
+      setTimeout(()=>{setShowAddingSuccessMessage(false)}, 4000)
+    }
   };
 
   const deletePerson = id => {
