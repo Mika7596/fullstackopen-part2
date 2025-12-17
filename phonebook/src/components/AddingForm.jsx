@@ -10,7 +10,9 @@ function AddingForm({handleSubmit, newName, setNewName, newNumber, setNewNumber}
         <div>
           number:{" "}
           <input
-            type="number"
+            type="text"
+            pattern="^\d{2,3}-\d{6,}$"
+            required
             value={newNumber}
             onChange={(e) => setNewNumber(e.target.value)}
           ></input>{" "}
