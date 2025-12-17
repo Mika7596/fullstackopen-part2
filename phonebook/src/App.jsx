@@ -53,9 +53,12 @@ function App() {
 
       // setPersons(persons.concat(newObject));
       setPersons([...persons, newObject]);
-      peopleService.createPerson(newObject);
-      setShowAddingSuccessMessage(true);
-      setTimeout(()=>{setShowAddingSuccessMessage(false)}, 4000)
+      peopleService.createPerson(newObject).then(resp => {
+        setShowAddingSuccessMessage(true);
+        setTimeout(()=>{setShowAddingSuccessMessage(false)}, 4000)
+      }).catch(error =>{
+        setShowErrorMessage([true, error.response.data.error])
+      })
     }
   };
 
